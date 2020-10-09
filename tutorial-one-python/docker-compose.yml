@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: 'library/rabbitmq:3.8-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  python-send:
+    container_name: 'python-send'
+    build: 'python-send'
+    deploy:
+      restart_policy:
+        condition: 'any'
+        delay: '2s'
+    depends_on:
+      - 'rabbitmq'
+
+  python-receive:
+    container_name: 'python-receive'
+    build: 'python-receive'
+    restart: 'always'
+    depends_on:
+      - 'rabbitmq'
