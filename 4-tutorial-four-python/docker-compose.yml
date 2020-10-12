@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: 'library/rabbitmq:3.8-management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  task:
+    build: 'emit_log_direct'
+    restart: 'no'
+    depends_on:
+      - 'rabbitmq'
+
+  worker:
+    build: 'receive_logs_direct'
+    restart: 'always'
+    depends_on:
+      - 'rabbitmq'
+    deploy:
+      replicas: 2
