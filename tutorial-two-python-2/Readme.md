@@ -9,7 +9,7 @@ Sender is deployed as a container, placing tasks to the queue.
 
 The sender task creation is performed in a delayed loop in `loop-python.sh`.
 
-This part ends just before message acknowledgement is mentioned in the tutorial.
+
 
 
 ## Deployment
