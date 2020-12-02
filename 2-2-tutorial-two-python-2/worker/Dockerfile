@@ -11,9 +11,6 @@ WORKDIR /demo
 
 COPY --chown=demo:demo requirements.txt requirements.txt
 COPY --chown=demo:demo . .
-#RUN pip install --user -r requirements.txt
-
-#ENV PATH="/home/demo/.local/bin:${PATH}"
 
 USER root
 RUN python -m pip install pika
@@ -24,5 +21,3 @@ USER demo
 LABEL maintainer="phil taylor" version="1.0.0"
 
 CMD ["python","/demo/app/worker-demo.py"]
-#ENTRYPOINT ["python3","/demo/app/worker-demo.py"]
-#ENTRYPOINT [ "python" ]
