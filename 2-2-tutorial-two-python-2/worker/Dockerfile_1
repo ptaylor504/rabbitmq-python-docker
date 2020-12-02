@@ -1,0 +1,36 @@
+FROM python:3.8.6-slim-buster
+
+#RUN apt-get update 
+#RUN apt-get upgrade
+#RUN apt-get install bash
+#RUN apt-get install dos2unix
+
+RUN pip install --upgrade pip
+
+# Add user with default values
+RUN ln -sf /bin/bash /bin/sh
+RUN useradd -ms /bin/bash  demo
+#RUN adduser -D demo
+
+WORKDIR /demo
+
+USER root
+
+RUN chmod -R 775 /demo/
+
+RUN find /demo -type f -print0 | xargs -0 dos2unix 
+#&& apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
+
+USER demo
+
+COPY --chown=demo:demo requirements.txt requirements.txt
+COPY --chown=demo:demo . .
+RUN pip install --user -r requirements.txt
+
+ENV PATH="/demo/.local/bin:${PATH}"
+
+
+
+# -u is PYTHONUNBUFFERED=1
+#ENTRYPOINT ["python3","-u","/demo/app/worker-demo.py"]
+ENTRYPOINT ["python3"]
